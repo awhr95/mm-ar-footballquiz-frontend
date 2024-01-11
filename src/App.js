@@ -1,10 +1,16 @@
-import "./App.css";
+import "./app.scss";
+// import Header from "./components/header/Header";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+import Homepage from "./pages/homepage/Hompage";
 
 function App() {
   return (
-    <div>
-      <h1>BACK OF THE NET</h1>
-    </div>
+    <BrowserRouter>
+      <Homepage />
+      <Routes>
+        <Route path="/" />
+      </Routes>
+    </BrowserRouter>
   );
 }
 

@@ -1,0 +1,11 @@
+@use "../../styles/partials/typography" as *;
+
+.header {
+  display: flex;
+  background-image: url("../../assets/images/download.jpeg");
+  opacity: 0.6;
+
+  &__title {
+    font-size: 4rem;
+  }
+}
