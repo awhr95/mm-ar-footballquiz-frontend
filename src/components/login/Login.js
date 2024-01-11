@@ -7,8 +7,8 @@ export default function Login() {
       <form>
         <label>WHAT IS YOUR NAME</label>
         <input placeholder="USER NAME"></input>
-        <Link>
-          <button></button>
+        <Link to="/quiz">
+          <button>PLAY NOW</button>
         </Link>
       </form>
     </div>
