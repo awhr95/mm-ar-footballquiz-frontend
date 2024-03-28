@@ -9,6 +9,8 @@ export default function QuizBody({ scorersRandomised, correctList }) {
   const { scorerId } = useParams();
   console.log(scorersRandomised);
 
+  console.log(`correct list: ${correctList}`);
+
   // if correct
   // const wonFunction = () => {
   //   if (scorerId === correctList[0].playerId) {
@@ -25,7 +27,7 @@ export default function QuizBody({ scorersRandomised, correctList }) {
             <Link
               to={`/quiz/${scorer.playerId}`}
               className="playerbutton"
-              key={scorer.id}
+              key={scorer.playerId}
             >
               <article className="playerarticle">
                 <img
