@@ -1,45 +1,22 @@
 import "./Login.scss";
 import axios from "axios";
-import { useEffect } from "react";
-import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
-export default function Login() {
-  // hard code first game
+const Login = () => {
+    const navigate = useNavigate();
 
-  // add funtion to save new user details to datafile on the backend - to do 28 03 24
-// add that here
+    const handleSubmit = async (event) => {
+      event.preventDefault();
+      const newPlayer = event.target.newPlayer.value;
 
-  const [quizLeague, setQuizLeague] = useState(null);
-
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response = await axios.get(
-          "http://localhost:8100/topScorers?season=2023&league=39"
-        );
-        console.log(response.data);
-        setQuizLeague(response.data);
-      } catch (error) {
-        console.log(error);
-      }
-    };
-    fetchData();
-  }, []);
-
-  const navigate = useNavigate();
-
-  const handleSubmit = async (event) => {
-    event.preventDefault();
-    const newPlayer = event.target.newPlayer.value;
-
-    console.log(newPlayer);
-    setTimeout(() => {
+      try { 
+      await axios.post("http://localhost:8100/players", { name: newPlayer });
       navigate("/quiz");
-    }, 500);
 
-    // await axios.post( + "/leaderboard", newPlayer);
-  };
+     } catch (error) {
+      console.error("Error submitting user's name:", error);
+    }
+    };
 
   return (
     <div>
@@ -50,4 +27,6 @@ export default function Login() {
       </form>
     </div>
   );
-}
+};
+
+export default Login;
