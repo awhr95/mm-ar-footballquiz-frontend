@@ -1,0 +1,38 @@
+.quizsection {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-evenly;
+}
+
+.playerimg {
+  height: 5rem;
+  width: 4rem;
+}
+
+.playertitle {
+  font-size: 1rem;
+}
+
+.playerbutton {
+  text-decoration: none;
+  border: 1px black solid;
+  border-radius: 10px;
+  width: 8rem;
+  margin: 1rem;
+  box-shadow: 12px 12px 2px 1px rgba(45, 45, 248, 0.2);
+}
+
+.teamlogo {
+  height: 2rem;
+}
+
+.titlecontainer {
+  display: flex;
+}
+
+.playerarticle {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 1rem;
+}

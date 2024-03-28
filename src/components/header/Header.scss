@@ -3,8 +3,8 @@
 .header {
   display: flex;
   background-image: url("../../assets/images/download.jpeg");
-  opacity: 0.6;
-
+  background-color: rgba(255, 255, 255, 0.6);
+  background-blend-mode: lighten;
   &__title {
     font-size: 4rem;
   }

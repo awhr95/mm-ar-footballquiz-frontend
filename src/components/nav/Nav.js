@@ -4,14 +4,13 @@ import { Link } from "react-router-dom";
 export default function Nav() {
   return (
     <div>
-      <p>Hello</p>
-      <Link>
+      <Link to="/">
         <button>HOME</button>
       </Link>
       <Link>
         <button>LEADER BOARD</button>
       </Link>
-      <Link>
+      <Link to="/">
         <button>NEW GAME</button>
       </Link>
     </div>
