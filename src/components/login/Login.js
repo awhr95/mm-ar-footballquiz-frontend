@@ -7,13 +7,15 @@ import { useNavigate } from "react-router-dom";
 export default function Login() {
   // hard code first game
 
+  // add funtion to save new user details to datafile on the backend - to do 28 03 24
+
   const [quizLeague, setQuizLeague] = useState(null);
 
   useEffect(() => {
     const fetchData = async () => {
       try {
         const response = await axios.get(
-          "http://localhost:8100/topScorers?season=2020&league=39"
+          "http://localhost:8100/topScorers?season=2023&league=39"
         );
         console.log(response.data);
         setQuizLeague(response.data);
