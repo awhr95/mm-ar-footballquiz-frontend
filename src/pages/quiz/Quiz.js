@@ -6,8 +6,6 @@ import axios from "axios";
 import { useEffect } from "react";
 
 import { useState } from "react";
-// import { redirectDocument } from "react-router-dom";
-// import { useParams } from "react-router-dom";
 
 export default function Quiz() {
   const [quizLeagueCorrectList, setQuizLeagueCorrectList] = useState(null);
