@@ -9,6 +9,7 @@ const QuizBody = () => {
   const [scorersRandomised, setScorersRandomised] = useState([]);
   const [topScorer, setTopScorer] = useState(null);
 
+
     useEffect(() => {
     const fetchRandomizedScorers = async () => {
       try {
@@ -38,6 +39,7 @@ const QuizBody = () => {
             <div
               className="playerbutton"
               key={scorer.playerId}
+
               onClick={() => handlePlayerClick(scorer.playerId)}
             >
               <article className="playerarticle">
