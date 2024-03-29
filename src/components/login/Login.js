@@ -1,50 +1,32 @@
 import "./Login.scss";
 import axios from "axios";
-import { useEffect } from "react";
-import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
-export default function Login() {
-  // hard code first game
+const Login = () => {
+    const navigate = useNavigate();
 
-  const [quizLeague, setQuizLeague] = useState(null);
+    const handleSubmit = async (event) => {
+        event.preventDefault();
+        const formData = new FormData(event.target);
+        const newPlayer = formData.get("newPlayer");
 
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response = await axios.get(
-          "http://localhost:8100/topScorers?season=2020&league=39"
-        );
-        console.log(response.data);
-        setQuizLeague(response.data);
-      } catch (error) {
-        console.log(error);
-      }
+        try { 
+            await axios.post("http://localhost:8100/players", { name: newPlayer, score: 0 });
+            navigate("/quiz");
+        } catch (error) {
+            console.error("Error submitting user's name:", error);
+        }
     };
-    fetchData();
-  }, []);
 
-  const navigate = useNavigate();
+    return (
+        <div>
+            <form onSubmit={handleSubmit}>
+                <label htmlFor="newPlayer">WHAT IS YOUR NAME</label>
+                <input id="newPlayer" name="newPlayer" placeholder="ENTER YOUR NAME" />
+                <button type="submit">PLAY NOW</button>
+            </form>
+        </div>
+    );
+};
 
-  const handleSubmit = async (event) => {
-    event.preventDefault();
-    const newPlayer = event.target.newPlayer.value;
-
-    console.log(newPlayer);
-    setTimeout(() => {
-      navigate("/quiz");
-    }, 500);
-
-    // await axios.post( + "/leaderboard", newPlayer);
-  };
-
-  return (
-    <div>
-      <form onSubmit={handleSubmit}>
-        <label>WHAT IS YOUR NAME</label>
-        <input name="newPlayer" placeholder="USER NAME"></input>
-        <button type="submit">PLAY NOW</button>
-      </form>
-    </div>
-  );
-}
+export default Login;
