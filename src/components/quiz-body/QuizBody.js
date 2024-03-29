@@ -18,7 +18,7 @@ const QuizBody = () => {
             try {
               const response = await axios.get(`http://localhost:8100/topScorers?league=${selectedLeague}&season=${selectedYear}`);
           setTopScorer(response.data[[1]]);
-      
+          fetchRandomizedScorers();
         } catch (error) {
           console.error("Error fetching top scorers:", error);
         }
@@ -35,7 +35,7 @@ const QuizBody = () => {
           
         if (quizStarted) {
         fetchTopScorers();
-        fetchRandomizedScorers();
+    
     }   
     }, [quizStarted, selectedLeague, selectedYear]);
 
@@ -58,7 +58,7 @@ const QuizBody = () => {
         console.log("League Number:", leagueNumber);
         switch (leagueNumber) {
           case "39":
-            return "Premiere League";
+            return "Premier League";
           case "1":
             return "World Cup";
           case "2":
@@ -78,7 +78,12 @@ const QuizBody = () => {
           case "120":
             return "Division 1, Denmark";
           case "183":
-            return "Scotish Premiere League";
+            return "Scottish Premier League";
+          case "40":
+            return "Championship, England";
+          case "41" :
+            return "League 1, England"
+            
           default:
             return "";
         }
@@ -90,6 +95,7 @@ const QuizBody = () => {
       };
       
       console.log("Selected League:", selectedLeague);
+      console.log("Selected Year", selectedYear);
       
       return (
         <div className="quizbody">
