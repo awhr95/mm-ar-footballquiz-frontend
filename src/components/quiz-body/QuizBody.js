@@ -1,7 +1,5 @@
 import "./QuizBody.scss";
 import { Link } from "react-router-dom";
-import { useState } from "react";
-import { useEffect } from "react";
 import { useParams } from "react-router-dom";
 
 export default function QuizBody({ scorersRandomised, correctList }) {
