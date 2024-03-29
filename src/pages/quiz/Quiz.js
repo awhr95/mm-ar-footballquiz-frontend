@@ -25,10 +25,8 @@ const Quiz = () => {
     event.preventDefault();
     if (selectedLeague && selectedYear) {
       setQuizStarted(true);
-      notifySuccess("Quiz Starting!");
-      setTimeout(() => {
-        navigate(`/quiz-body?leagueId=${selectedLeague}&year=${selectedYear}`);
-      }, 5000);
+
+        navigate(`/quiz-body/${selectedLeague}/${selectedYear}`);
     }
   };
 
