@@ -13,7 +13,7 @@ function App() {
         <Route path="/" element={<Homepage />} />
         <Route path="/login" element={<Login />} />
         <Route path="/quiz" element={<Quiz />} />
-        <Route path="/quiz-body/:leagueId/:year" element={<QuizBody />} />
+        <Route path="/quiz-body/:selectedLeague/:selectedYear" element={<QuizBody />} />
         <Route path="/quiz/:scorerId" element={<Quiz />} />
         <Route path="/leaderboard" element={<Leaderboard />} />
       </Routes>

@@ -23,7 +23,7 @@ const Login = () => {
             <form onSubmit={handleSubmit}>
                 <label htmlFor="newPlayer">WHAT IS YOUR NAME</label>
                 <input id="newPlayer" name="newPlayer" placeholder="ENTER YOUR NAME" />
-                <button type="submit">PLAY NOW</button>
+                <button type="submit">LOG IN</button>
             </form>
         </div>
     );
