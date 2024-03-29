@@ -1,6 +1,9 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Header from "../../components/header/Header";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import { notifySuccess, notifyInfo, notifyError } from "../../utils/utils";
 
 import QuizBody from "../../components/quiz-body/QuizBody";
 
@@ -22,11 +25,15 @@ const Quiz = () => {
     event.preventDefault();
     if (selectedLeague && selectedYear) {
       setQuizStarted(true);
-      navigate(`/quiz-body/${selectedLeague}/${selectedYear}`);
+       notifySuccess("Quiz Starting!");
+      setTimeout(() => {
+        navigate(`/quiz-body?leagueId=${selectedLeague}&year=${selectedYear}`);
+      }, 5000);
     }
+  };
+    }
+   
 };
-
-
 
 return (
   <div>
@@ -80,5 +87,8 @@ return (
   </div>
 );
 }
+     
+
+
 
 export default Quiz;
