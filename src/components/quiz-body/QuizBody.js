@@ -18,7 +18,7 @@ const QuizBody = () => {
             try {
               const response = await axios.get(`http://localhost:8100/topScorers?league=${selectedLeague}&season=${selectedYear}`);
           setTopScorer(response.data[[1]]);
-      
+          fetchRandomizedScorers();
         } catch (error) {
           console.error("Error fetching top scorers:", error);
         }
@@ -35,7 +35,7 @@ const QuizBody = () => {
           
         if (quizStarted) {
         fetchTopScorers();
-        fetchRandomizedScorers();
+    
     }   
     }, [quizStarted, selectedLeague, selectedYear]);
 
@@ -90,6 +90,7 @@ const QuizBody = () => {
       };
       
       console.log("Selected League:", selectedLeague);
+      console.log("Selected Year", selectedYear);
       
       return (
         <div className="quizbody">
