@@ -7,7 +7,7 @@ export default function Nav() {
       <Link to="/">
         <button>HOME</button>
       </Link>
-      <Link>
+      <Link to="/leaderboard">
         <button>LEADER BOARD</button>
       </Link>
       <Link to="/">
