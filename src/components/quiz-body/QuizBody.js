@@ -1,38 +1,51 @@
 import "./QuizBody.scss";
-import { Link } from "react-router-dom";
-import { useState } from "react";
-import { useEffect } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
+import axios from "axios";
 
-export default function QuizBody({ scorersRandomised, correctList }) {
-  // console.log(scorersRandomised);
-  const { scorerId } = useParams();
-  console.log(scorersRandomised);
+const QuizBody = () => {
+  const navigate = useNavigate();
+  const [scorersRandomised, setScorersRandomised] = useState([]);
+  const [topScorer, setTopScorer] = useState(null);
 
-  // if correct
-  // const wonFunction = () => {
-  //   if (scorerId === correctList[0].playerId) {
-  //     alert("You Won");
-  //   }
-  // };
-  // useEffect(wonFunction(), [scorerId]);
+    useEffect(() => {
+    const fetchRandomizedScorers = async () => {
+      try {
+        const response = await axios.get(`/api/topScorers?league=${selectedLeague}&season=${selectedYear}`);
+        setScorersRandomised(response.data);
+        setTopScorer(response.data[0]);
+      } catch (error) {
+        console.error("Error fetching randomized scorers:", error);
+      }
+    };
+    fetchRandomizedScorers();
+    }, [selectedLeague, selectedYear]);
 
+    const handlePlayerClick = (playerId) => {
+      if (playerId === topScorer.playerId) {
+        navigate("/win");
+      } else {
+        navigate("/lose");
+      } 
+      };
+      
   return (
     <div className="quizbody">
+      <h1 className="quizbody__title">{league} - {year}</h1>
       <section className="quizsection">
-        {scorersRandomised.map((scorer) => {
-          return (
-            <Link
-              to={`/quiz/${scorer.playerId}`}
+        {scorersRandomised.map((scorer) => (
+            <div
               className="playerbutton"
-              key={scorer.id}
+              key={scorer.playerId}
+              onClick={() => handlePlayerClick(scorer.playerId)}
             >
               <article className="playerarticle">
                 <img
                   className="playerimg"
                   alt="player-photo"
                   src={scorer.photo}
-                ></img>
+                />
                 <div className="titlecontainer">
                   <div>
                     <h2 className="playertitle">{scorer.name}</h2>
@@ -43,13 +56,14 @@ export default function QuizBody({ scorersRandomised, correctList }) {
                     className="teamlogo"
                     alt="team-logo"
                     src={scorer.teamLogo}
-                  ></img>
+                    />
                 </div>
               </article>
-            </Link>
-          );
-        })}
+            </div>
+
+        ))}
       </section>
     </div>
   );
-}
+  }
+export default QuizBody;

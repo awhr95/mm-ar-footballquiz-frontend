@@ -1,56 +1,64 @@
+import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import Header from "../../components/header/Header";
-import Nav from "../../components/nav/Nav";
-import QuizTitle from "../../components/quiz-title/QuizTitle";
-import QuizBody from "../../components/quiz-body/QuizBody";
-import axios from "axios";
-import { useEffect } from "react";
+import QuizBody from "./QuizBody";
 
-import { useState } from "react";
-// import { redirectDocument } from "react-router-dom";
-// import { useParams } from "react-router-dom";
+const Quiz = () => {
+  const navigate = useNavigate();
 
-export default function Quiz() {
-  const [quizLeagueCorrectList, setQuizLeagueCorrectList] = useState(null);
-  const [randomisedPlayers, setRandomisedPlayers] = useState(null);
+  const [selectedLeague, setSelectedLeague] = useState("");
+  const [selectedYear, setSelectedYear] = useState("");
 
-  // const {leagueId} = useParams();
+  const handleLeagueChange = (event) => {
+    setSelectedLeague(event.target.value);
+  };
 
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response = await axios.get(
-          "http://localhost:8100/topScorers?season=2020&league=1"
-        );
-        setQuizLeagueCorrectList(response.data);
-      } catch (error) {
-        console.log(error);
-      }
-    };
-    fetchData();
-    const fetchRandomisedData = async () => {
-      try {
-        const response = await axios.get(
-          "http://localhost:8100/topScorers/randomizedTopFiveScorers"
-        );
-        setRandomisedPlayers(response.data);
-      } catch (error) {
-        console.log(error);
-      }
-    };
-    fetchRandomisedData();
-  }, []);
-  if (!randomisedPlayers || !quizLeagueCorrectList) {
-    return <p>Loading...</p>;
+  const handleYearChange = (event) => {
+    setSelectedYear(event.target.value);
+  };
+  const handleSubmit = (event) => {
+    event.preventDefault();
+    if (selectedLeague && selectedYear) {
+      navigate(`/quiz-body?leagueId=${selectedLeague}&year=${selectedYear}`);
   }
-  return (
-    <div>
-      <Header />
-      <QuizTitle league={randomisedPlayers} />
-      <QuizBody
-        scorersRandomised={randomisedPlayers}
-        correctList={quizLeagueCorrectList}
-      />
-      <Nav />
-    </div>
-  );
+};
+
+return (
+  <div>
+    <Header />
+    <form onSubmit={handleSubmit}>
+      <label>Select League:</label>
+      <select value={selectedLeague} onChange={handleLeagueChange}>
+        <option value="">Select League</option>
+        <option value="39">Premiere League 1</option>
+        <option value="1">World Cup</option>
+        <option value="2">Uefa Champions League</option>
+        <option value="45">FA Cup</option>
+        <option value="61">Ligue 1, France</option>
+        <option value="78">Bundesliga, Germany</option>
+        <option value="135">Serie A, Italy</option>
+        <option value="140">La Liga, Spain</option>
+        <option value="78">Pro League, Belgium</option>
+        <option value="120">Division 1, Denmark</option>
+        <option value="183">Scotish Premiere League</option>
+      </select>
+
+      <label>Select Year:</label>
+      <select value={selectedYear} onChange={handleYearChange}>
+        <option value="">Select Year</option>
+        <option value="2023">2023</option>
+        <option value="2022">2022</option>
+        <option value="2021">2021</option>
+        <option value="2020">2020</option>
+        <option value="2019">2019</option>
+        {/* Add more year options as needed - maybe this should be user just inputs the year or it's randomised? */}
+      </select>
+
+      <button type="submit">Start Quiz</button>
+    </form>
+    {/* <QuizBody selectedLeague={selectedLeague} selectedYear={selectedYear} /> */}
+  </div>
+);
 }
+
+export default Quiz;
