@@ -1,18 +1,21 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import Header from "../../components/header/Header";
-import { ToastContainer } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
-import { notifySuccess, notifyInfo, notifyError } from "../../utils/utils";
+import { GamePlayerContext } from "../../context/GamePlayerContext";
+
+// import { ToastContainer } from "react-toastify";
+// import "react-toastify/dist/ReactToastify.css";
+// import { notifySuccess, notifyInfo, notifyError } from "../../utils/utils";
 
 import QuizBody from "../../components/quiz-body/QuizBody";
 
 const Quiz = () => {
   const navigate = useNavigate();
-
+  const { playedGames } = useContext(GamePlayerContext);
   const [selectedLeague, setSelectedLeague] = useState("");
   const [selectedYear, setSelectedYear] = useState("");
   const [quizStarted, setQuizStarted] = useState(false);
+  const [alreadyPlayedMessage, setAlreadyPlayedMessage] = useState("");
 
   const handleLeagueChange = (event) => {
     setSelectedLeague(event.target.value);
@@ -23,12 +26,24 @@ const Quiz = () => {
   };
   const handleSubmit = (event) => {
     event.preventDefault();
+
+    const gameAlreadyPlayed = playedGames.some(
+      (game) => game.league === selectedLeague && game.year === selectedYear
+    );
+
+    if (gameAlreadyPlayed) {
+      setAlreadyPlayedMessage(
+        "Game already played. Choose a different season or year."
+        );
+        return;
+      }
+
     if (selectedLeague && selectedYear) {
       setQuizStarted(true);
-
-        navigate(`/quiz-body/${selectedLeague}/${selectedYear}`);
+      navigate(`/quiz-body/${selectedLeague}/${selectedYear}`);
     }
-  };
+  
+};
 
   return (
     <div>
@@ -72,7 +87,7 @@ const Quiz = () => {
 
         <button type="submit">START</button>
       </form>
-
+      {alreadyPlayedMessage && <p>{alreadyPlayedMessage}</p>}
       {quizStarted && (
         <QuizBody selectedLeague={selectedLeague} selectedYear={selectedYear} />
       )}
