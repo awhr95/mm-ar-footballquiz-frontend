@@ -1,14 +1,17 @@
 import "./QuizBody.scss";
-
-import { useState, useEffect } from "react";
-import PropTypes from 'prop-types';
+import Header from "../../components/header/Header";
+import { useState, useEffect, useContext } from "react";
 import { useNavigate, useParams } from 'react-router-dom';
 import axios from "axios";
+import { GamePlayerContext } from "../../context/GamePlayerContext";
+
 
 
 const QuizBody = () => {
   const { selectedLeague, selectedYear } = useParams();
   const navigate = useNavigate();
+  const { gamePlayer, addPlayedGame } = useContext(GamePlayerContext); 
+  const gamePlayerId = gamePlayer ? gamePlayer.id : null; 
   const [topScorer, setTopScorer] = useState(null);
   const [scorersRandomised, setScorersRandomised] = useState([]);
   const [quizStarted, setQuizStarted] = useState(false);
@@ -17,12 +20,12 @@ const QuizBody = () => {
         const fetchTopScorers = async () => {
             try {
               const response = await axios.get(`http://localhost:8100/topScorers?league=${selectedLeague}&season=${selectedYear}`);
-          setTopScorer(response.data[[1]]);
-          fetchRandomizedScorers();
-        } catch (error) {
-          console.error("Error fetching top scorers:", error);
-        }
-        };
+              setTopScorer(response.data[0]);
+              fetchRandomizedScorers();
+              } catch (error) {
+             console.error("Error fetching top scorers:", error);
+            }
+            };
 
         const fetchRandomizedScorers = async () => {
           try {
@@ -45,17 +48,30 @@ const QuizBody = () => {
       setQuizStarted(true);
     };
 
-    const handlePlayerClick = (playerId) => {
+    const handleGamePlayerClick = async (playerId) => {
+        
+
       if (playerId === topScorer.playerId) {
-        navigate('/win');
-      } else {
-        navigate('/lose');
-      }
-    };
+        
+
+        try {
+          await axios.patch(`http://localhost:8100/players/${gamePlayerId}`);
+          navigate(`/win/${selectedLeague}/${selectedYear}`);
+        
+        } catch (error) {
+          console.error("Error updating player score:", error);
+          navigate(`/lose/${selectedLeague}/${selectedYear}`);
+        }
+
+        } else {
+          navigate(`/lose/${selectedLeague}/${selectedYear}`);
+        }
+        addPlayedGame(selectedLeague, selectedYear);
+        };
 
 
       const getLeagueName = (leagueNumber) => {
-        console.log("League Number:", leagueNumber);
+        
         switch (leagueNumber) {
           case "39":
             return "Premier League";
@@ -89,16 +105,11 @@ const QuizBody = () => {
         }
       };
 
-      QuizBody.propTypes = {
-        selectedLeague: PropTypes.string.isRequired,
-        selectedYear: PropTypes.string.isRequired
-      };
-      
-      console.log("Selected League:", selectedLeague);
-      console.log("Selected Year", selectedYear);
+    
       
       return (
         <div className="quizbody">
+          <Header />
           {!quizStarted ? (
             <button className="quizbody__start-button" onClick={handleStartQuiz}>
               Start Playing The Quiz
@@ -106,13 +117,14 @@ const QuizBody = () => {
           ) : (
             <>
               <h2 className="quizbody__subtitle">Click on the player you think is the top scorer</h2>
-              <h1 className="quizbody__title">{getLeagueName(selectedLeague)} - {selectedYear}</h1>
+              <h1 className="quizbody__title">{getLeagueName(selectedLeague)}</h1>
+              <h1 className="quizbody__title">{selectedYear}</h1>
               <section className="quizsection">
                 {scorersRandomised.map((scorer) => (
                   <div
                     className="playerbutton"
                     key={scorer.playerId}
-                    onClick={() => handlePlayerClick(scorer.playerId)}
+                    onClick={() => handleGamePlayerClick(scorer.playerId)}
                   >
                     <article className="playerarticle">
                       <img
@@ -140,5 +152,8 @@ const QuizBody = () => {
         </div>
       );
       } 
+
+
+
 export default QuizBody;
       

@@ -1,5 +1,4 @@
-import Header from "../../components/header/Header";
-import Nav from "../../components/nav/Nav";
+import "./LeaderBoard.scss";
 import React, { useState } from "react";
 import { useEffect } from "react";
 import axios from "axios";
@@ -28,9 +27,10 @@ export default function Leaderboard() {
 
   return (
     <>
-      <Header />
-      {/* need to map through the users*/}
+    
       <section>
+     
+        <h1>LEADER BOARD</h1>
         <ul>
           {sortedLeaderboard.map((user) => {
             return (
@@ -41,8 +41,9 @@ export default function Leaderboard() {
             );
           })}
         </ul>
+     
       </section>
-      <Nav />
+   
     </>
   );
 }
